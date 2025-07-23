@@ -2,109 +2,172 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Knowledge Graph</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Static Graph Visualization</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
-  body { margin: 0; }
-  svg { width: 100vw; height: 100vh; background: #f9f9f9; }
-  .link { stroke: #999; stroke-opacity: 0.6; }
-  .node circle { stroke: #fff; stroke-width: 2px; }
-  text { font-family: sans-serif; font-size: 12px; }
+  body { margin: 0; font-family: Arial; }
+  svg { width: 100%; height: 100vh; background: #f8f8f8; }
+  text { font-size: 12px; font-family: Arial; }
+  .link-label { font-size: 10px; fill: #555; }
 </style>
 </head>
 <body>
 <svg></svg>
+
 <script>
-const svg = d3.select("svg"),
-      width = window.innerWidth,
-      height = window.innerHeight;
+// ✅ Veri (statik JSON - graph.json yerine direkt burada)
+const graph = {
+  nodes: [
+    { id: "A1", label: "Land Surface Temperature", group: "Analiz" },
+    { id: "A2", label: "Web Scraping TKGM Tapu", group: "Analiz" },
+    { id: "A3", label: "Object Detection", group: "Analiz" },
+    { id: "A4", label: "Web Scraping TKGM İdari", group: "Analiz" },
+    { id: "A5", label: "Web Scraping TKGM LatLon", group: "Analiz" },
+    { id: "A6", label: "Web Scraping KEOS", group: "Analiz" },
+    { id: "A7", label: "Segment Anything", group: "Analiz" },
+    { id: "A8", label: "Donatı Analizi", group: "Analiz" },
+    { id: "A9", label: "Spider Map", group: "Analiz" },
+    { id: "A10", label: "Otomatik Föy Oluşturma", group: "Analiz" },
 
-d3.json("graph.json").then(graph => {
-  const color = d => {
-    if (d.label === "Analiz") return "#2ca02c";
-    if (d.label === "Teknoloji") return "#1f77b4";
-    if (d.label === "VeriKaynağı") return "#ff7f0e";
-    if (d.label === "EndPoint") return "#9467bd";
-    return "#999";
-  };
+    { id: "T1", label: "Google Earth Engine", group: "Teknoloji" },
+    { id: "T2", label: "AppSheet", group: "Teknoloji" },
+    { id: "T3", label: "QGIS", group: "Teknoloji" },
+    { id: "T4", label: "Github", group: "Teknoloji" },
+    { id: "T5", label: "Canva", group: "Teknoloji" },
+    { id: "T6", label: "Appscript", group: "Teknoloji" },
+    { id: "T7", label: "ComfyUI", group: "Teknoloji" },
+    { id: "T8", label: "LookerStudio", group: "Teknoloji" },
+    { id: "T9", label: "tensorFlow", group: "Teknoloji" },
 
-  const simulation = d3.forceSimulation(graph.nodes)
+    { id: "V1", label: "TKGM", group: "VeriKaynağı" },
+    { id: "V2", label: "KEOS", group: "VeriKaynağı" },
+
+    { id: "APP1", label: "AppSheet Mobil Uygulaması", group: "EndPoint" },
+    { id: "APP2", label: "AppScript Deployment", group: "EndPoint" }
+  ],
+  links: [
+    { source: "A1", target: "T1", type: "KULLANIR" },
+    { source: "A2", target: "T6", type: "KULLANIR" },
+    { source: "A3", target: "T9", type: "KULLANIR" },
+    { source: "A4", target: "T6", type: "KULLANIR" },
+    { source: "A5", target: "T6", type: "KULLANIR" },
+    { source: "A6", target: "T6", type: "KULLANIR" },
+    { source: "A7", target: "T7", type: "KULLANIR" },
+    { source: "A8", target: "T3", type: "KULLANIR" },
+    { source: "A9", target: "T4", type: "KULLANIR" },
+    { source: "A10", target: "T6", type: "KULLANIR" },
+
+    { source: "A2", target: "V1", type: "KULLANIR_VERİ" },
+    { source: "A4", target: "V1", type: "KULLANIR_VERİ" },
+    { source: "A5", target: "V1", type: "KULLANIR_VERİ" },
+    { source: "A6", target: "V2", type: "KULLANIR_VERİ" },
+
+    { source: "T2", target: "APP1", type: "OLUŞTURUR" },
+    { source: "T6", target: "APP2", type: "DEPLOY_EDER" }
+  ]
+};
+
+// ✅ SVG ve Zoom/Pan ayarı
+const svg = d3.select("svg");
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const g = svg.append("g"); // Zoom için grup
+
+const zoom = d3.zoom()
+    .scaleExtent([0.1, 3])
+    .on("zoom", (event) => {
+        g.attr("transform", event.transform);
+    });
+
+svg.call(zoom);
+
+// ✅ Force Simulation
+const simulation = d3.forceSimulation(graph.nodes)
     .force("link", d3.forceLink(graph.links).id(d => d.id).distance(150))
     .force("charge", d3.forceManyBody().strength(-400))
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-  const link = svg.append("g")
-    .attr("stroke", "#999")
-    .attr("stroke-opacity", 0.6)
+// ✅ Linkler
+const link = g.append("g")
+    .attr("stroke", "#aaa")
     .selectAll("line")
     .data(graph.links)
     .enter().append("line")
-    .attr("stroke-width", 2);
+    .attr("stroke-width", 1.5);
 
-  const edgeLabel = svg.append("g")
+// ✅ Edge Labels
+const edgeLabels = g.append("g")
     .selectAll("text")
     .data(graph.links)
     .enter().append("text")
-    .attr("font-size", 10)
-    .attr("fill", "#555")
-    .attr("dy", -5)
-    .text(d => d.type);
+    .text(d => d.type)
+    .attr("class", "link-label");
 
-  const node = svg.append("g")
+// ✅ Node Renkleri
+function colorByGroup(group) {
+    if (group === "Analiz") return "#4CAF50";        // Yeşil
+    if (group === "Teknoloji") return "#2196F3";     // Mavi
+    if (group === "VeriKaynağı") return "#FF9800";   // Turuncu
+    if (group === "EndPoint") return "#9C27B0";      // Mor
+    return "#999";
+}
+
+// ✅ Node'lar
+const node = g.append("g")
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
-    .attr("r", 15)
-    .attr("fill", color)
-    .call(drag(simulation));
+    .attr("r", 10)
+    .attr("fill", d => colorByGroup(d.group))
+    .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
 
-  const label = svg.append("g")
+// ✅ Node Etiketleri
+const labels = g.append("g")
     .selectAll("text")
     .data(graph.nodes)
     .enter().append("text")
-    .text(d => d.name)
-    .attr("font-size", 10)
-    .attr("dx", 20)
+    .text(d => d.label)
+    .attr("font-size", 12)
+    .attr("dx", 12)
     .attr("dy", 4);
 
-  simulation.on("tick", () => {
-    link
-      .attr("x1", d => d.source.x)
-      .attr("y1", d => d.source.y)
-      .attr("x2", d => d.target.x)
-      .attr("y2", d => d.target.y);
+// ✅ Tick Update
+simulation.on("tick", () => {
+    link.attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
 
-    edgeLabel
-      .attr("x", d => (d.source.x + d.target.x) / 2)
-      .attr("y", d => (d.source.y + d.target.y) / 2);
+    node.attr("cx", d => d.x)
+        .attr("cy", d => d.y);
 
-    node
-      .attr("cx", d => d.x)
-      .attr("cy", d => d.y);
+    labels.attr("x", d => d.x)
+          .attr("y", d => d.y);
 
-    label
-      .attr("x", d => d.x)
-      .attr("y", d => d.y);
-  });
-
-  function drag(simulation) {
-    return d3.drag()
-      .on("start", event => {
-        if (!event.active) simulation.alphaTarget(0.3).restart();
-        event.subject.fx = event.subject.x;
-        event.subject.fy = event.subject.y;
-      })
-      .on("drag", event => {
-        event.subject.fx = event.x;
-        event.subject.fy = event.y;
-      })
-      .on("end", event => {
-        if (!event.active) simulation.alphaTarget(0);
-        event.subject.fx = null;
-        event.subject.fy = null;
-      });
-  }
+    edgeLabels.attr("x", d => (d.source.x + d.target.x) / 2)
+              .attr("y", d => (d.source.y + d.target.y) / 2);
 });
+
+// ✅ Drag Fonksiyonları
+function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+}
+function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+}
+function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+}
 </script>
 </body>
 </html>
