@@ -54,6 +54,22 @@ svg.call(d3.zoom().scaleExtent([0.3, 3]).on("zoom", (event) => {
   g.attr("transform", event.transform);
 }));
 
+const defs = svg.append("defs");
+defs.append("marker")
+    .attr("id", "arrowhead")
+    .attr("viewBox", "-0 -5 10 10")
+    .attr("refX", 28)   // ok pozisyonu
+    .attr("refY", 0)
+    .attr("orient", "auto")
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("xoverflow", "visible")
+  .append("svg:path")
+    .attr("d", "M 0,-5 L 10,0 L 0,5")
+    .attr("fill", "#999")
+    .style("stroke", "none");
+
+
 d3.json("graph.json").then(graph => {
   const color = d => {
     if (d.label === "Analiz") return "#2ca02c";
@@ -65,7 +81,7 @@ d3.json("graph.json").then(graph => {
 
   // Simulation ayarları (daha stabil ve sıkı)
   const simulation = d3.forceSimulation(graph.nodes)
-    .force("link", d3.forceLink(graph.links).id(d => d.id).distance(80))
+    .force("link", d3.forceLink(graph.links).id(d => d.id).distance(150))
     .force("charge", d3.forceManyBody().strength(-120))
     .force("center", d3.forceCenter(width / 2, height / 2))
     .alphaDecay(0.05);
@@ -76,7 +92,9 @@ d3.json("graph.json").then(graph => {
     .selectAll("line")
     .data(graph.links)
     .enter().append("line")
-    .attr("stroke-width", 2);
+    .attr("stroke-width", 2)
+    .attr("marker-end", "url(#arrowhead)");
+
 
   const edgeLabel = g.append("g")
     .selectAll("text")
