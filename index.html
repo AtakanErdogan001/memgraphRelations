@@ -41,6 +41,15 @@ d3.json("graph.json").then(graph => {
     .enter().append("line")
     .attr("stroke-width", 2);
 
+  const edgeLabel = svg.append("g")
+    .selectAll("text")
+    .data(graph.links)
+    .enter().append("text")
+    .attr("font-size", 10)
+    .attr("fill", "#555")
+    .attr("dy", -5)
+    .text(d => d.type);
+
   const node = svg.append("g")
     .selectAll("circle")
     .data(graph.nodes)
@@ -64,6 +73,10 @@ d3.json("graph.json").then(graph => {
       .attr("y1", d => d.source.y)
       .attr("x2", d => d.target.x)
       .attr("y2", d => d.target.y);
+
+    edgeLabel
+      .attr("x", d => (d.source.x + d.target.x) / 2)
+      .attr("y", d => (d.source.y + d.target.y) / 2);
 
     node
       .attr("cx", d => d.x)
