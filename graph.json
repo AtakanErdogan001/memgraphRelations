@@ -23,11 +23,12 @@
     { "id": "T9", "label": "Teknoloji", "name": "tensorFlow", "year": "2023", "status": "Aktif", "description": "Makine öğrenimi kütüphanesi", "unit": "Yapay Zeka" },
     { "id": "T10", "label": "Teknoloji", "name": "vsCode", "year": "2023", "status": "Aktif", "description": "Kod editörü", "unit": "Geliştirme" },
     { "id": "T11", "label": "Teknoloji", "name": "googleEarth", "year": "2023", "status": "Aktif", "description": "Harita görüntüleme aracı", "unit": "GIS" },
+    { "id": "T12", "label": "Teknoloji", "name": "Blender", "year": "2023", "status": "Aktif", "description": "Procedural Bina Üretimi", "unit": "Mimarlık" },
 
     { "id": "T16", "label": "Teknoloji", "name": "Jupyter/Colab", "year": "2023", "status": "Aktif", "description": "Python veri analizi platformu", "unit": "Veri Bilimi" },
     { "id": "T17", "label": "Teknoloji", "name": "ArcSurvey", "year": "2024", "status": "Aktif", "description": "Arazi veri toplama aracı", "unit": "GIS" },
     { "id": "T18", "label": "Teknoloji", "name": "ArcGIS", "year": "2024", "status": "Aktif", "description": "CBS platformu", "unit": "GIS" },
-    { "id": "T19", "label": "Teknoloji", "name": "GithubProjects", "year": "2025", "status": "Aktif", "description": "Trello alternatifi iş takip Uygulaması", "unit": "GIS" },
+    { "id": "T19", "label": "Teknoloji", "name": "GithubProjects", "year": "2025", "status": "Aktif", "description": "CBS platformu", "unit": "GIS" },
 
     { "id": "E1", "label": "EndPoint", "name": "QGISCloud", "year": "2025", "status": "Aktif", "description": "QGIS bulut çözümü", "unit": "GIS" },
     { "id": "E2", "label": "EndPoint", "name": "Mapbox", "year": "2025", "status": "Aktif", "description": "Web harita platformu", "unit": "Geliştirme" },
@@ -79,13 +80,14 @@
     { "source": "A10", "target": "T6", "type": "KULLANIR" },
     { "source": "A10", "target": "E5", "type": "FÖY ÇIKARIR" },
     { "source": "A5", "target": "T11", "type": "KULLANIR" },
-    { "source": "T4", "target": "E4", "type": "GÖMÜLÜDÜR" },
+    { "source": "T4", "target": "E4", "type": "GÖRSELLEŞTİRİR" },
     { "source": "T18", "target": "T17", "type": "KULLANIR_VERİ" },
     { "source": "T17", "target": "T16", "type": "KULLANIR_VERİ" },
     { "source": "T1", "target": "T3", "type": "KULLANIR_VERİ" },
     { "source": "T8", "target": "E3", "type": "KULLANIR_VERİ" },
     { "source": "T2", "target": "E3", "type": "KULLANIR_VERİ" },
     { "source": "T4", "target": "T19", "type": "İŞ TAKİBİ" },
+    { "source": "T9", "target": "T12", "type": "OLUŞTURUR" },
 
 
     { "source": "Kişi1", "target": "A9", "type": "ÇALIŞAN" },
@@ -110,11 +112,11 @@
     { "source": "T5", "target": "T11", "type": "GÖMÜLÜDÜR" },
     { "source": "T6", "target": "APP2", "type": "DEPLOY_EDER" },
     { "source": "T10", "target": "T11", "type": "GÖMÜLÜDÜR" },
-    { "source": "A9", "target": "E2", "type": "GÖMÜLÜDÜR" },
-    { "source": "A8", "target": "E4", "type": "GÖMÜLÜDÜR" },
-    { "source": "A9", "target": "E4", "type": "GÖMÜLÜDÜR" },
-    { "source": "E2", "target": "E4", "type": "GÖMÜLÜDÜR" },
-    { "source": "T10", "target": "E4", "type": "GÖMÜLÜDÜR" },
+    { "source": "A9", "target": "E2", "type": "GÖRSELLEŞTİRİR" },
+    { "source": "A8", "target": "E4", "type": "GÖRSELLEŞTİRİR" },
+    { "source": "A9", "target": "E4", "type": "GÖRSELLEŞTİRİR" },
+    { "source": "E2", "target": "E4", "type": "GÖRSELLEŞTİRİR" },
+    { "source": "T10", "target": "E4", "type": "GÖRSELLEŞTİRİR" },
     { "source": "APP1", "target": "APP0", "type": "GÖRSELLEŞTİRİR" },
     { "source": "APP2", "target": "T2", "type": "KULLANIR" }
 
