@@ -20,6 +20,7 @@ Amaç, **Analizler**, **Teknolojiler**, **Veri Kaynakları** ve **EndPoint** bil
   - 🟢 Analiz
   - 🔵 Teknoloji
   - 🟠 Veri Kaynağı
+  - 🟣 Çalışanlar
   - 🟥 EndPoint
 - 🔗 **İlişki Türleri Görünür**: (Örn: `KULLANIR`, `OLUŞTURUR`)
 - 🔍 **Zoom & Pan**: Fare hareketiyle grafiği keşfetme
