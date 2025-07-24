@@ -59,6 +59,13 @@
   <button id="downloadBtn">📥 İndir (PNG)</button>
 </div>
 <div id="popup"></div>
+<div id="bottomPanel" style="
+  position:absolute; bottom:20px; right:20px; 
+  width:260px; max-height:500px; overflow:auto;
+  background:#fff; border:1px solid #ccc; border-radius:8px;
+  padding:10px; display:none; font-size:14px; 
+  box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+</div>
 <svg></svg>
 
 <script>
@@ -134,6 +141,7 @@ d3.json("graph.json").then(graph => {
       event.stopPropagation();
       showPopup(d);
       highlightNode(d);
+      showLabelList(d.label);
     })
     .call(drag(simulation));
 
@@ -194,6 +202,31 @@ d3.json("graph.json").then(graph => {
     `;
   }
 
+  function showLabelList(labelType) {
+    const panel = document.getElementById("bottomPanel");
+    
+    // Aynı label'e sahip tüm node'ları bul
+    const sameLabelNodes = graph.nodes.filter(n => n.label === labelType);
+
+    if (sameLabelNodes.length === 0) {
+      panel.style.display = "none";
+      return;
+    }
+
+    // Listeyi oluştur
+    let html = `<h3 style="margin-bottom:8px;">📋 ${labelType} Listesi</h3>`;
+    html += `<ul style="padding-left:18px; line-height:1.6;">`;
+    sameLabelNodes.forEach(n => {
+      html += `<li><b>${n.name}</b> (${n.id})</li>`;
+    });
+    html += `</ul>`;
+
+    panel.innerHTML = html;
+    panel.style.display = "block";
+    }
+
+
+
 
   // Highlight Fonksiyonu
   function highlightNode(selectedNode) {
@@ -248,7 +281,9 @@ d3.json("graph.json").then(graph => {
   svg.on("click", () => {
     resetHighlight();
     document.getElementById("popup").style.display = "none";
+    document.getElementById("bottomPanel").style.display = "none"; // ✅ Panel kapat
   });
+
 
   function resetHighlight() {
     node.transition().duration(300)
