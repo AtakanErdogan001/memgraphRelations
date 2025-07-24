@@ -7,12 +7,10 @@
 <style>
   body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
   svg { width: 100vw; height: 100vh; background: #f9f9f9; }
-  .link { stroke: #aaa; stroke-opacity: 0.8; }
-  .node circle { stroke: #fff; stroke-width: 2px; }
   text { font-size: 12px; pointer-events: none; }
   .legend {
     position: absolute;
-    top: 10px;
+    top: 20px;
     left: 10px;
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid #ccc;
@@ -20,18 +18,29 @@
     border-radius: 6px;
     font-size: 14px;
   }
-  .legend div {
-    display: flex;
-    align-items: center;
-    margin-bottom: 4px;
-  }
+  .legend div { display: flex; align-items: center; margin-bottom: 6px; }
   .legend div span {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    margin-right: 6px;
-    border-radius: 3px;
+    width: 14px; height: 14px; display: inline-block;
+    margin-right: 6px; border-radius: 10px;
   }
+  .legend strong {
+  display: block;
+  margin-bottom: 10px;
+  }
+  #popup {
+    position: absolute; top: 80px; right: 20px;
+    width: 220px; background: #fff;
+    border: 1px solid #ccc; border-radius: 8px;
+    padding: 10px; font-size: 14px;
+    display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  #controls { position: absolute; top: 10px; right: 20px; }
+  button {
+    padding: 8px 12px; font-size: 14px; margin-bottom: 10px;
+    border: none; background: #1f77b4; color: white;
+    border-radius: 4px; cursor: pointer;
+  }
+  button:hover { background: #155a8a; }
 </style>
 </head>
 <body>
@@ -40,25 +49,35 @@
   <div><span style="background:#2ca02c;"></span> Analiz</div>
   <div><span style="background:#1f77b4;"></span> Teknoloji</div>
   <div><span style="background:#ff7f0e;"></span> Veri Kaynağı</div>
-  <div><span style="background:#9467bd;"></span> EndPoint</div>
+  <div><span style="background:#9e3131;"></span> EndPoint</div>
+  <div><span style="background:#921f9c;"></span> Çalışan</div>
 </div>
+<div id="controls">
+  <input type="text" id="searchInput" placeholder="Ara..." style="padding:6px; font-size:14px; border:1px solid #ccc; border-radius:4px;">
+  <button id="searchBtn">🔍 Ara</button>
+  <button id="resetBtn">🔄 Reset</button>
+  <button id="downloadBtn">📥 İndir (PNG)</button>
+</div>
+<div id="popup"></div>
 <svg></svg>
+
 <script>
 const svg = d3.select("svg");
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-// Zoom & Pan ekliyoruz
+// Zoom + Pan
 const g = svg.append("g");
 svg.call(d3.zoom().scaleExtent([0.3, 3]).on("zoom", (event) => {
   g.attr("transform", event.transform);
 }));
 
+// Ok tanımı
 const defs = svg.append("defs");
 defs.append("marker")
     .attr("id", "arrowhead")
     .attr("viewBox", "-0 -5 10 10")
-    .attr("refX", 28)   // ok pozisyonu
+    .attr("refX", 28)
     .attr("refY", 0)
     .attr("orient", "auto")
     .attr("markerWidth", 6)
@@ -69,17 +88,17 @@ defs.append("marker")
     .attr("fill", "#999")
     .style("stroke", "none");
 
-
 d3.json("graph.json").then(graph => {
   const color = d => {
     if (d.label === "Analiz") return "#2ca02c";
     if (d.label === "Teknoloji") return "#1f77b4";
     if (d.label === "VeriKaynağı") return "#ff7f0e";
-    if (d.label === "EndPoint") return "#9467bd";
+    if (d.label === "EndPoint") return "#9e3131";
+    if (d.label === "Çalışan") return "#921f9c";
     return "#999";
   };
 
-  // Simulation ayarları (daha stabil ve sıkı)
+  // Force ayarları
   const simulation = d3.forceSimulation(graph.nodes)
     .force("link", d3.forceLink(graph.links).id(d => d.id).distance(150))
     .force("charge", d3.forceManyBody().strength(-120))
@@ -94,7 +113,6 @@ d3.json("graph.json").then(graph => {
     .enter().append("line")
     .attr("stroke-width", 2)
     .attr("marker-end", "url(#arrowhead)");
-
 
   const edgeLabel = g.append("g")
     .selectAll("text")
@@ -111,6 +129,12 @@ d3.json("graph.json").then(graph => {
     .enter().append("circle")
     .attr("r", 15)
     .attr("fill", color)
+    .style("cursor", "pointer")
+    .on("click", (event, d) => {
+      event.stopPropagation();
+      showPopup(d);
+      highlightNode(d);
+    })
     .call(drag(simulation));
 
   const label = g.append("g")
@@ -142,6 +166,136 @@ d3.json("graph.json").then(graph => {
       .attr("y", d => d.y);
   });
 
+  // Popup
+  function showPopup(nodeData) {
+    const popup = document.getElementById("popup");
+    popup.style.display = "block";
+
+    // Dinamik alanları oluştur (boş olanları gösterme)
+    const details = `
+      <h3 style="margin-bottom: 8px;">📌 Node Detayları</h3>
+      ${nodeData.name ? `<p><b>🔹 Name:</b> ${nodeData.name}</p>` : ""}
+      ${nodeData.label ? `<p><b>🏷 Label:</b> ${nodeData.label}</p>` : ""}
+      ${nodeData.id ? `<p><b>🆔 ID:</b> ${nodeData.id}</p>` : ""}
+      ${nodeData.year ? `<p><b>📅 Yıl:</b> ${nodeData.year}</p>` : ""}
+      ${nodeData.status ? `<p><b>✅ Durum:</b> ${nodeData.status}</p>` : ""}
+      ${nodeData.description ? `<p><b>📝 Açıklama:</b> ${nodeData.description}</p>` : ""}
+      ${nodeData.unit ? `<p><b>🏢 Birim:</b> ${nodeData.unit}</p>` : ""}
+    `;
+
+    popup.innerHTML = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+        ${details}
+        <button onclick="document.getElementById('popup').style.display='none'" 
+                style="margin-top:10px;padding:6px 12px;border:none;border-radius:4px;background:#1f77b4;color:#fff;cursor:pointer;">
+          Kapat
+        </button>
+      </div>
+    `;
+  }
+
+
+  // Highlight Fonksiyonu
+  function highlightNode(selectedNode) {
+    // Reset
+    node.transition().duration(300)
+        .attr("r", 15)
+        .attr("fill", color)
+        .style("opacity", 0.3);
+
+    link.transition().duration(300)
+        .attr("stroke", "#999")
+        .attr("stroke-width", 2)
+        .style("opacity", 0.2);
+
+    edgeLabel.transition().duration(300).style("opacity", 0.2);
+    label.transition().duration(300).style("opacity", 0.3);
+
+    const connectedLinks = graph.links.filter(l => l.source.id === selectedNode.id || l.target.id === selectedNode.id);
+    const connectedNodeIds = new Set([selectedNode.id, ...connectedLinks.map(l => l.source.id), ...connectedLinks.map(l => l.target.id)]);
+
+    // Ana node
+    node.filter(d => d.id === selectedNode.id)
+        .transition().duration(300)
+        .attr("r", 22)
+        .style("opacity", 1)
+        .attr("fill", d3.rgb(color(selectedNode)).brighter(1.5));
+
+    // Bağlantılı node'lar
+    node.filter(d => connectedNodeIds.has(d.id) && d.id !== selectedNode.id)
+        .transition().duration(300)
+        .attr("r", 18)
+        .style("opacity", 0.9)
+        .attr("fill", d => d3.rgb(color(d)).brighter(0.8));
+
+    // Bağlantılar
+    link.filter(l => connectedLinks.includes(l))
+        .transition().duration(300)
+        .attr("stroke", "#333")
+        .attr("stroke-width", 4)
+        .style("opacity", 1);
+
+    edgeLabel.filter(l => connectedLinks.includes(l))
+        .transition().duration(300)
+        .style("opacity", 1);
+
+    label.filter(d => connectedNodeIds.has(d.id))
+        .transition().duration(300)
+        .style("opacity", 1);
+  }
+
+  // Reset için boş alana tıklama
+  svg.on("click", () => {
+    resetHighlight();
+    document.getElementById("popup").style.display = "none";
+  });
+
+  function resetHighlight() {
+    node.transition().duration(300)
+        .attr("r", 15)
+        .attr("fill", color)
+        .style("opacity", 1);
+
+    link.transition().duration(300)
+        .attr("stroke", "#999")
+        .attr("stroke-width", 2)
+        .style("opacity", 1);
+
+    edgeLabel.transition().duration(300).style("opacity", 1);
+    label.transition().duration(300).style("opacity", 1);
+  }
+
+  // PNG İndir
+  document.getElementById("downloadBtn").addEventListener("click", () => {
+    const svgElement = document.querySelector("svg");
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(svgElement);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+    const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      const imgURI = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+      const link = document.createElement("a");
+      link.download = "graph.png";
+      link.href = imgURI;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+    img.src = url;
+  });
+
+  // Drag
   function drag(simulation) {
     return d3.drag()
       .on("start", event => {
@@ -159,6 +313,44 @@ d3.json("graph.json").then(graph => {
         event.subject.fy = null;
       });
   }
+  // 🔍 Arama Fonksiyonu
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const query = document.getElementById("searchInput").value.trim().toLowerCase();
+    if (!query) return;
+
+    const foundNode = graph.nodes.find(n => 
+      n.name.toLowerCase().includes(query) || n.id.toLowerCase() === query
+    );
+
+    if (foundNode) {
+      highlightNode(foundNode);
+
+      // Yakınlaştır ve merkeze getir
+      const zoomScale = 1.5;
+      const tx = width / 2 - foundNode.x * zoomScale;
+      const ty = height / 2 - foundNode.y * zoomScale;
+
+      svg.transition()
+        .duration(750)
+        .call(d3.zoom().transform, d3.zoomIdentity.translate(tx, ty).scale(zoomScale));
+
+      showPopup(foundNode);
+    } else {
+      alert("Eşleşen node bulunamadı.");
+    }
+  });
+
+  // 🔄 Reset butonu
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    document.getElementById("searchInput").value = "";
+    resetHighlight();
+
+    // Zoom sıfırla
+    svg.transition().duration(750)
+      .call(d3.zoom().transform, d3.zoomIdentity);
+  });
+
+
 });
 </script>
 </body>
