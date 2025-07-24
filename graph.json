@@ -27,7 +27,7 @@
     { "id": "T16", "label": "Teknoloji", "name": "Jupyter/Colab", "year": "2023", "status": "Aktif", "description": "Python veri analizi platformu", "unit": "Veri Bilimi" },
     { "id": "T17", "label": "Teknoloji", "name": "ArcSurvey", "year": "2024", "status": "Aktif", "description": "Arazi veri toplama aracı", "unit": "GIS" },
     { "id": "T18", "label": "Teknoloji", "name": "ArcGIS", "year": "2024", "status": "Aktif", "description": "CBS platformu", "unit": "GIS" },
-    { "id": "T19", "label": "Teknoloji", "name": "GithubProjects", "year": "2025", "status": "Aktif", "description": "CBS platformu", "unit": "GIS" },
+    { "id": "T19", "label": "Teknoloji", "name": "GithubProjects", "year": "2025", "status": "Aktif", "description": "Trello alternatifi iş takip Uygulaması", "unit": "GIS" },
 
     { "id": "E1", "label": "EndPoint", "name": "QGISCloud", "year": "2025", "status": "Aktif", "description": "QGIS bulut çözümü", "unit": "GIS" },
     { "id": "E2", "label": "EndPoint", "name": "Mapbox", "year": "2025", "status": "Aktif", "description": "Web harita platformu", "unit": "Geliştirme" },
