@@ -52,7 +52,7 @@
     { "id": "Kişi5", "label": "Çalışan", "name": "Utku Arıca", "year": "2025", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "Kocaeli Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
     { "id": "Kişi6", "label": "Çalışan", "name": "Gözde Nur Duran", "year": "2024", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
     { "id": "Kişi7", "label": "Çalışan", "name": "Solmaz Güneş Öztür", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
-    { "id": "Kişi8", "label": "Çalışan", "name": "Eren Güneş Çakmakçı", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+    { "id": "Kişi8", "label": "Çalışan", "name": "Eren Güneş Çakmakçı", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" }
   ],
 
   "links": [
