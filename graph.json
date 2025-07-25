@@ -49,7 +49,6 @@
     { "id": "Kişi2", "label": "Çalışan", "name": "Begüm Güntan", "year": "2024", "status": "Pasif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/beg%C3%BCm-g%C3%BCntan-897a51228/" },
     { "id": "Kişi3", "label": "Çalışan", "name": "Elif Somuncu", "year": "2025", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/elif-s-2a2729176/" },
     { "id": "Kişi4", "label": "Çalışan", "name": "Tülay Gökçeler", "year": "2025", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/t%C3%BClay-g%C3%B6k%C3%A7eler-b56904232/" },
-    { "id": "Kişi5", "label": "Çalışan", "name": "Utku Arıca", "year": "2025", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "Kocaeli Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
     { "id": "Kişi6", "label": "Çalışan", "name": "Gözde Nur Duran", "year": "2024", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/gozdenurduran/" },
     { "id": "Kişi7", "label": "Çalışan", "name": "Solmaz Güneş Öztür", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/g%C3%BCne%C5%9F-%C3%B6zt%C3%BCr-195157249/" },
     { "id": "Kişi8", "label": "Çalışan", "name": "Eren Güneş Çakmakçı", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/eren-g%C3%BCne%C5%9F-%C3%A7akmak%C3%A7%C4%B1-364b27278/" }
@@ -99,7 +98,6 @@
     { "source": "Kişi3", "target": "APP0", "type": "ÇALIŞAN" },
     { "source": "Kişi3", "target": "T2", "type": "ÇALIŞAN" },
     { "source": "Kişi4", "target": "T2", "type": "ÇALIŞAN" },
-    { "source": "Kişi5", "target": "APP1", "type": "ÇALIŞAN" },
     { "source": "Kişi6", "target": "T5", "type": "ÇALIŞAN" },
     { "source": "Kişi7", "target": "T18", "type": "ÇALIŞAN" },
     { "source": "Kişi8", "target": "T2", "type": "ÇALIŞAN" },     
