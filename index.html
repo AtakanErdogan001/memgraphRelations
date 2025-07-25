@@ -196,7 +196,7 @@ d3.json("graph.json").then(graph => {
       ${nodeData.status ? `<p><b>✅ Durum:</b> ${nodeData.status}</p>` : ""}
       ${nodeData.description ? `<p><b>📝 Açıklama:</b> ${nodeData.description}</p>` : ""}
       ${nodeData.unit ? `<p><b>🏢 Birim:</b> ${nodeData.unit}</p>` : ""}
-      ${nodeData.link ? `<p><b>🔗 Link:</b> ${nodeData.link}</p>` : ""}
+      ${nodeData.baglanti ? `<p><b>🔗 Link:</b> ${nodeData.baglanti}</p>` : ""}
     `;
 
     popup.innerHTML = `
