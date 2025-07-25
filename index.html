@@ -130,29 +130,30 @@ d3.json("graph.json").then(graph => {
     .attr("dy", -5)
     .text(d => d.type);
 
-  // Şekil tipini label'a göre seçiyoruz
-  const shape = d => {
-    if (d.label === "EndPoint") return d3.symbolStar;    // Yıldız
-    // if (d.label === "Teknoloji") return d3.symbolTriangle; // Üçgen
-    // if (d.label === "VeriKaynağı") return d3.symbolDiamond; // Elmas
-    return d3.symbolCircle; // Diğerleri için daire
-  };
+    // Şekil tipini label'a göre seçiyoruz
+    const shape = d => {
+      if (d.label === "EndPoint") return d3.symbolStar;    // Yıldız
+      // if (d.label === "Teknoloji") return d3.symbolTriangle; // Üçgen
+      // if (d.label === "VeriKaynağı") return d3.symbolDiamond; // Elmas
+      return d3.symbolCircle; // Diğerleri için daire
+    };
 
-  // Node oluşturma (path ile)
-  const node = g.append("g")
-    .selectAll("path")
-    .data(graph.nodes)
-    .enter().append("path")
-    .attr("d", d => d3.symbol().type(shape(d)).size(700)()) // boyutu ayarladık  
-    .attr("fill", color)
-    .style("cursor", "pointer")
-    .on("click", (event, d) => {
-      event.stopPropagation();
-      showPopup(d);
-      highlightNode(d);
-      showLabelList(d.label);
-    })
-    .call(drag(simulation));
+    // Node oluşturma (path ile)
+    const node = g.append("g")
+      .selectAll("path")
+      .data(graph.nodes)
+      .enter().append("path")
+      .attr("d", d => d3.symbol().type(shape(d)).size(700)()) // boyutu ayarladık 
+      .attr("fill", color)
+      .style("cursor", "pointer")
+      .on("click", (event, d) => {
+        event.stopPropagation();
+        showPopup(d);
+        highlightNode(d);
+        showLabelList(d.label);
+      })
+      .call(drag(simulation));
+
 
   const label = g.append("g")
     .selectAll("text")
@@ -169,13 +170,14 @@ d3.json("graph.json").then(graph => {
       .attr("y1", d => d.source.y)
       .attr("x2", d => d.target.x)
       .attr("y2", d => d.target.y);
-  
+
     edgeLabel
       .attr("x", d => (d.source.x + d.target.x) / 2)
       .attr("y", d => (d.source.y + d.target.y) / 2);
-  
+
     node.attr("transform", d => `translate(${d.x},${d.y})`);
-  
+
+
     label
       .attr("x", d => d.x)
       .attr("y", d => d.y);
