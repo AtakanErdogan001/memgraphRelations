@@ -110,7 +110,7 @@
 
 
     { "source": "T2", "target": "APP1", "type": "OLUŞTURUR" },
-    { "source": "T3", "target": "V3", "type": "KULLANIR_VERİ" },
+    { "source": "T3", "target": "V3", "type": "VERİ ÇEKME" },
     { "source": "T3", "target": "E1", "type": "GÖRÜNTÜLER" },
     { "source": "T5", "target": "T6", "type": "GÖMÜLÜDÜR" },
     { "source": "T6", "target": "APP2", "type": "DEPLOY_EDER" },
