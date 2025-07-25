@@ -88,6 +88,7 @@
     { "source": "T2", "target": "E3", "type": "VERİ ÇEKME" },
     { "source": "T4", "target": "T19", "type": "İŞ TAKİBİ" },
     { "source": "T9", "target": "T12", "type": "OLUŞTURUR" },
+    { "source": "Kişi6", "target": "T2", "type": "GÖRSELLEŞTİRİR" },
 
 
     { "source": "Kişi1", "target": "A9", "type": "ÇALIŞAN" },
