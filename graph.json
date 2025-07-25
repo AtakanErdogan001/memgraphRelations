@@ -14,7 +14,7 @@
 
     { "id": "T1", "label": "Teknoloji", "name": "Google Earth Engine", "year": "2023", "status": "Aktif", "description": "Uzaktan algılama ve analiz platformu", "unit": "Teknoloji", "baglanti": "" },
     { "id": "T2", "label": "Teknoloji", "name": "AppSheet", "year": "2024", "status": "Aktif", "description": "No-code uygulama geliştirme", "unit": "Mobil Geliştirme", "baglanti": "" },
-    { "id": "T3", "label": "Teknoloji", "name": "QGIS", "year": "2023", "status": "Aktif", "description": "GIS veri işleme ve analiz aracı", "unit": "GIS", "baglanti": "" },
+    { "id": "T3", "label": "Teknoloji", "name": "QGIS", "year": "2023", "status": "Aktif", "description": "GIS veri işleme ve analiz aracı", "unit": "GIS", "baglanti": "https://github.com/users/muadPlanlama/projects/2/views/1" },
     { "id": "T4", "label": "Teknoloji", "name": "Github", "year": "2023", "status": "Aktif", "description": "Kod versiyon kontrol platformu", "unit": "Geliştirme", "baglanti": "" },
     { "id": "T5", "label": "Teknoloji", "name": "Canva", "year": "2024", "status": "Aktif", "description": "Tasarım ve görselleştirme aracı", "unit": "Tasarım", "baglanti": "" },
     { "id": "T6", "label": "Teknoloji", "name": "Appscript", "year": "2024", "status": "Aktif", "description": "Google Apps otomasyonu", "unit": "Otomasyon", "baglanti": "" },
@@ -27,7 +27,7 @@
     { "id": "T16", "label": "Teknoloji", "name": "Jupyter/Colab", "year": "2023", "status": "Aktif", "description": "Python veri analizi platformu", "unit": "Veri Bilimi", "baglanti": "" },
     { "id": "T17", "label": "Teknoloji", "name": "ArcSurvey", "year": "2024", "status": "Aktif", "description": "Arazi veri toplama aracı", "unit": "GIS", "baglanti": "" },
     { "id": "T18", "label": "Teknoloji", "name": "ArcGIS", "year": "2024", "status": "Aktif", "description": "CBS platformu", "unit": "GIS", "baglanti": "" },
-    { "id": "T19", "label": "Teknoloji", "name": "GithubProjects", "year": "2025", "status": "Aktif", "description": "CBS platformu", "unit": "GIS", "baglanti": "" },
+    { "id": "T19", "label": "Teknoloji", "name": "GithubProjects", "year": "2025", "status": "Aktif", "description": "CBS platformu", "unit": "GIS", "baglanti": "https://github.com/muadPlanlama?tab=projects" },
     
     { "id": "E1", "label": "EndPoint", "name": "QGISCloud", "year": "2025", "status": "Aktif", "description": "QGIS bulut çözümü", "unit": "GIS", "baglanti": "https://qgiscloud.com/" },
     { "id": "E2", "label": "EndPoint", "name": "Mapbox", "year": "2025", "status": "Aktif", "description": "Web harita platformu", "unit": "Geliştirme", "baglanti": "https://console.mapbox.com/" },
