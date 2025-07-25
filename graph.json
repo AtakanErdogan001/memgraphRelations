@@ -23,7 +23,12 @@
     { "id": "T9", "label": "Teknoloji", "name": "tensorFlow", "year": "2023", "status": "Aktif", "description": "Makine öğrenimi kütüphanesi", "unit": "Yapay Zeka", "baglanti": "https://yourdomain.com/teknoloji/T9" },
     { "id": "T10", "label": "Teknoloji", "name": "vsCode", "year": "2023", "status": "Aktif", "description": "Kod editörü", "unit": "Geliştirme", "baglanti": "https://yourdomain.com/teknoloji/T10" },
     { "id": "T11", "label": "Teknoloji", "name": "googleEarth", "year": "2023", "status": "Aktif", "description": "Harita görüntüleme aracı", "unit": "GIS", "baglanti": "https://yourdomain.com/teknoloji/T11" },
-
+    { "id": "T12", "label": "Teknoloji", "name": "Blender", "year": "2023", "status": "Aktif", "description": "Procedural Bina Üretimi", "unit": "Mimarlık", "baglanti": "https://yourdomain.com/teknoloji/T12" } },
+    { "id": "T16", "label": "Teknoloji", "name": "Jupyter/Colab", "year": "2023", "status": "Aktif", "description": "Python veri analizi platformu", "unit": "Veri Bilimi", "baglanti": "https://yourdomain.com/teknoloji/T12" } },
+    { "id": "T17", "label": "Teknoloji", "name": "ArcSurvey", "year": "2024", "status": "Aktif", "description": "Arazi veri toplama aracı", "unit": "GIS", "baglanti": "https://yourdomain.com/teknoloji/T12" } },
+    { "id": "T18", "label": "Teknoloji", "name": "ArcGIS", "year": "2024", "status": "Aktif", "description": "CBS platformu", "unit": "GIS", "baglanti": "https://yourdomain.com/teknoloji/T12" } },
+    { "id": "T19", "label": "Teknoloji", "name": "GithubProjects", "year": "2025", "status": "Aktif", "description": "CBS platformu", "unit": "GIS", "baglanti": "https://yourdomain.com/teknoloji/T12" } },
+    
     { "id": "E1", "label": "EndPoint", "name": "QGISCloud", "year": "2025", "status": "Aktif", "description": "QGIS bulut çözümü", "unit": "GIS", "baglanti": "https://qgiscloud.com/" },
     { "id": "E2", "label": "EndPoint", "name": "Mapbox", "year": "2025", "status": "Aktif", "description": "Web harita platformu", "unit": "Geliştirme", "baglanti": "https://console.mapbox.com/" },
     { "id": "E3", "label": "EndPoint", "name": "googleSites", "year": "2025", "status": "Aktif", "description": "Web site yayını", "unit": "Web", "baglanti": "https://sites.google.com/view/muaddunyabankasi/s%C3%BCre%C3%A7" },
@@ -33,7 +38,20 @@
     { "id": "V1", "label": "VeriKaynağı", "name": "TKGM", "year": "2023", "status": "Aktif", "description": "Tapu Kadastro verileri", "unit": "Veri Kaynağı", "baglanti": "https://parselsorgu.tkgm.gov.tr/" },
     { "id": "V2", "label": "VeriKaynağı", "name": "KEOS", "year": "2023", "status": "Aktif", "description": "KEOS belediye CBS verileri", "unit": "Veri Kaynağı", "baglanti": "https://kentrehberi.izmir.bel.tr/mobilkentrehberi" },
     { "id": "V3", "label": "VeriKaynağı", "name": "OSM", "year": "2023", "status": "Aktif", "description": "OpenStreetMap verileri", "unit": "Veri Kaynağı", "baglanti": "https://www.openstreetmap.org/#map=14/38.45507/27.18910&layers=C3" },
-    { "id": "V4", "label": "VeriKaynağı", "name": "Raster", "year": "2023", "status": "Aktif", "description": "Raster tabanlı veri", "unit": "Veri Kaynağı", "baglanti": "https://earthengine.googlesource.com/?format=HTML" }
+    { "id": "V4", "label": "VeriKaynağı", "name": "Raster", "year": "2023", "status": "Aktif", "description": "Raster tabanlı veri", "unit": "Veri Kaynağı", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+
+    { "id": "APP1", "label": "EndPoint", "name": "AppSheet Mobil Uygulaması", "year":   "2025", "status": "Aktif", "description": "Mobil proje yönetim uygulaması", "unit": "Mobil Geliştirme", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+    { "id": "APP0", "label": "EndPoint", "name": "AppSheet Sunumu", "year": "2024", "status": "Aktif", "description": "Mobil proje yönetim uygulaması sunumu", "unit": "Görselleştirme", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+    { "id": "APP2", "label": "EndPoint", "name": "AppScript Deployment", "year": "2025", "status": "Aktif", "description": "AppScript entegrasyon servisi", "unit": "Otomasyon", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },,
+
+    { "id": "Kişi1", "label": "Çalışan", "name": "Kaan Akar", "year": "2025", "status": "Aktif", "description": "Teknik Uzman", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+    { "id": "Kişi2", "label": "Çalışan", "name": "Begüm Güntan", "year": "2024", "status": "Pasif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+    { "id": "Kişi3", "label": "Çalışan", "name": "Elif Somuncu", "year": "2025", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+    { "id": "Kişi4", "label": "Çalışan", "name": "Tülay Gökçeler", "year": "2025", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+    { "id": "Kişi5", "label": "Çalışan", "name": "Utku Arıca", "year": "2025", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "Kocaeli Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+    { "id": "Kişi6", "label": "Çalışan", "name": "Gözde Nur Duran", "year": "2024", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
+    { "id": "Kişi7", "label": "Çalışan", "name": "Solmaz Güneş Öztür", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },,
+    { "id": "Kişi8", "label": "Çalışan", "name": "Eren Güneş Çakmakçı", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://earthengine.googlesource.com/?format=HTML" },
   ],
 
   "links": [
