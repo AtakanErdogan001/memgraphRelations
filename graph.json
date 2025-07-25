@@ -14,8 +14,8 @@
 
     { "id": "T1", "label": "Teknoloji", "name": "Google Earth Engine", "year": "2023", "status": "Aktif", "description": "Uzaktan algılama ve analiz platformu", "unit": "Teknoloji", "baglanti": "" },
     { "id": "T2", "label": "Teknoloji", "name": "AppSheet", "year": "2024", "status": "Aktif", "description": "No-code uygulama geliştirme", "unit": "Mobil Geliştirme", "baglanti": "" },
-    { "id": "T3", "label": "Teknoloji", "name": "QGIS", "year": "2023", "status": "Aktif", "description": "GIS veri işleme ve analiz aracı", "unit": "GIS", "baglanti": "https://github.com/users/muadPlanlama/projects/2/views/1" },
-    { "id": "T4", "label": "Teknoloji", "name": "Github", "year": "2023", "status": "Aktif", "description": "Kod versiyon kontrol platformu", "unit": "Geliştirme", "baglanti": "" },
+    { "id": "T3", "label": "Teknoloji", "name": "QGIS", "year": "2023", "status": "Aktif", "description": "GIS veri işleme ve analiz aracı", "unit": "GIS", "baglanti": "" },
+    { "id": "T4", "label": "Teknoloji", "name": "Github", "year": "2023", "status": "Aktif", "description": "Kod versiyon kontrol platformu", "unit": "Geliştirme", "baglanti": "https://github.com/users/muadPlanlama/projects/2/views/1" },
     { "id": "T5", "label": "Teknoloji", "name": "Canva", "year": "2024", "status": "Aktif", "description": "Tasarım ve görselleştirme aracı", "unit": "Tasarım", "baglanti": "" },
     { "id": "T6", "label": "Teknoloji", "name": "Appscript", "year": "2024", "status": "Aktif", "description": "Google Apps otomasyonu", "unit": "Otomasyon", "baglanti": "" },
     { "id": "T7", "label": "Teknoloji", "name": "ComfyUI", "year": "2023", "status": "Aktif", "description": "AI görselleştirme aracı", "unit": "Yapay Zeka", "baglanti": "" },
