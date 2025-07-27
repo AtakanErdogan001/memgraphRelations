@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Knowledge Graph</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
+  svg { width: 100vw; height: 100vh; background: #f9f9f9; }
+  text { font-size: 12px; pointer-events: none; }
+  .legend {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .legend div { display: flex; align-items: center; margin-bottom: 6px; }
+  .legend div span {
+    width: 14px; height: 14px; display: inline-block;
+    margin-right: 6px; border-radius: 10px;
+  }
+  .legend strong {
+  display: block;
+  margin-bottom: 10px;
+  }
+  #popup {
+    position: absolute; top: 80px; right: 20px;
+    width: 220px; background: #fff;
+    border: 1px solid #ccc; border-radius: 8px;
+    padding: 10px; font-size: 14px;
+    display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  #controls { position: absolute; top: 10px; right: 20px; }
+  button {
+    padding: 8px 12px; font-size: 14px; margin-bottom: 10px;
+    border: none; background: #1f77b4; color: white;
+    border-radius: 4px; cursor: pointer;
+  }
+  button:hover { background: #155a8a; }
+</style>
+</head>
+<body>
+<div class="legend">
+  <strong>Legend</strong>
+  <div><span style="background:#2ca02c;"></span> Analiz</div>
+  <div><span style="background:#1f77b4;"></span> Teknoloji</div>
+  <div><span style="background:#ff7f0e;"></span> Veri Kaynağı</div>
+  <div><span style="background:#9e3131;"></span> EndPoint</div>
+  <div><span style="background:#921f9c;"></span> Çalışan</div>
+</div>
+<div id="controls">
+  <input type="text" id="searchInput" placeholder="Ara..." style="padding:6px; font-size:14px; border:1px solid #ccc; border-radius:4px;">
+  <button id="searchBtn">🔍 Ara</button>
+  <button id="resetBtn">🔄 Reset</button>
+  <button id="downloadBtn">📥 İndir (PNG)</button>
+</div>
+<div id="popup"></div>
+<div id="bottomPanel" style="
+  position:absolute; bottom:20px; right:20px; 
+  width:260px; max-height:400px; overflow:auto;
+  background:#fff; border:1px solid #ccc; border-radius:8px;
+  padding:10px; display:none; font-size:14px; 
+  box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+</div>
+<svg></svg>
+
+<script>
+const svg = d3.select("svg");
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+// Zoom + Pan
+const g = svg.append("g");
+svg.call(d3.zoom().scaleExtent([0.3, 3]).on("zoom", (event) => {
+  g.attr("transform", event.transform);
+}));
+
+// Ok tanımı
+const defs = svg.append("defs");
+defs.append("marker")
+    .attr("id", "arrowhead")
+    .attr("viewBox", "-0 -5 10 10")
+    .attr("refX", 28)
+    .attr("refY", 0)
+    .attr("orient", "auto")
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("xoverflow", "visible")
+  .append("svg:path")
+    .attr("d", "M 0,-5 L 10,0 L 0,5")
+    .attr("fill", "#999")
+    .style("stroke", "none");
+
+d3.json("graph.json").then(graph => {
+  const color = d => {
+    if (d.label === "Analiz") return "#2ca02c";
+    if (d.label === "Teknoloji") return "#1f77b4";
+    if (d.label === "VeriKaynağı") return "#ff7f0e";
+    if (d.label === "EndPoint") return "#9e3131";
+    if (d.label === "Çalışan") return "#921f9c";
+    return "#999";
+  };
+
+  // Force ayarları
+  const simulation = d3.forceSimulation(graph.nodes)
+    .force("link", d3.forceLink(graph.links).id(d => d.id).distance(150))
+    .force("charge", d3.forceManyBody().strength(-120))
+    .force("center", d3.forceCenter(width / 2, height / 2))
+    .alphaDecay(0.05);
+
+  const link = g.append("g")
+    .attr("stroke", "#999")
+    .attr("stroke-opacity", 0.6)
+    .selectAll("line")
+    .data(graph.links)
+    .enter().append("line")
+    .attr("stroke-width", 2)
+    .attr("marker-end", "url(#arrowhead)");
+
+  const edgeLabel = g.append("g")
+    .selectAll("text")
+    .data(graph.links)
+    .enter().append("text")
+    .attr("font-size", 10)
+    .attr("fill", "#555")
+    .attr("dy", -5)
+    .text(d => d.type);
+
+    // Şekil tipini label'a göre seçiyoruz
+    const shape = d => {
+      if (d.label === "EndPoint") return d3.symbolStar;    // Yıldız
+      // if (d.label === "Teknoloji") return d3.symbolTriangle; // Üçgen
+      // if (d.label === "VeriKaynağı") return d3.symbolDiamond; // Elmas
+      return d3.symbolCircle; // Diğerleri için daire
+    };
+
+    // Node oluşturma (path ile)
+    const node = g.append("g")
+      .selectAll("path")
+      .data(graph.nodes)
+      .enter().append("path")
+      .attr("d", d => d3.symbol().type(shape(d)).size(700)()) // boyutu ayarladık 
+      .attr("fill", color)
+      .style("cursor", "pointer")
+      .on("click", (event, d) => {
+        event.stopPropagation();
+        showPopup(d);
+        highlightNode(d);
+        showLabelList(d.label);
+      })
+      .call(drag(simulation));
+
+
+  const label = g.append("g")
+    .selectAll("text")
+    .data(graph.nodes)
+    .enter().append("text")
+    .text(d => d.name)
+    .attr("font-size", 11)
+    .attr("dx", 18)
+    .attr("dy", 4);
+
+  simulation.on("tick", () => {
+    link
+      .attr("x1", d => d.source.x)
+      .attr("y1", d => d.source.y)
+      .attr("x2", d => d.target.x)
+      .attr("y2", d => d.target.y);
+
+    edgeLabel
+      .attr("x", d => (d.source.x + d.target.x) / 2)
+      .attr("y", d => (d.source.y + d.target.y) / 2);
+
+    node.attr("transform", d => `translate(${d.x},${d.y})`);
+
+
+    label
+      .attr("x", d => d.x)
+      .attr("y", d => d.y);
+  });
+
+  // Popup
+  function showPopup(nodeData) {
+    const popup = document.getElementById("popup");
+    popup.style.display = "block";
+
+    // Dinamik alanları oluştur (boş olanları gösterme)
+    const details = `
+      <h3 style="margin-bottom: 8px;">📌 Node Detayları</h3>
+      ${nodeData.name ? `<p><b>🔹 Name:</b> ${nodeData.name}</p>` : ""}
+      ${nodeData.label ? `<p><b>🏷 Label:</b> ${nodeData.label}</p>` : ""}
+      ${nodeData.id ? `<p><b>🆔 ID:</b> ${nodeData.id}</p>` : ""}
+      ${nodeData.year ? `<p><b>📅 Yıl:</b> ${nodeData.year}</p>` : ""}
+      ${nodeData.status ? `<p><b>✅ Durum:</b> ${nodeData.status}</p>` : ""}
+      ${nodeData.description ? `<p><b>📝 Açıklama:</b> ${nodeData.description}</p>` : ""}
+      ${nodeData.unit ? `<p><b>🏢 Birim:</b> ${nodeData.unit}</p>` : ""}
+      ${nodeData.baglanti ? `<p><b>🔗 Link:</b> <a href="${nodeData.baglanti}" target="_blank">Git</a></p>` : ""}
+    `;
+
+    popup.innerHTML = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+        ${details}
+        <button onclick="document.getElementById('popup').style.display='none'" 
+                style="margin-top:10px;padding:6px 12px;border:none;border-radius:4px;background:#1f77b4;color:#fff;cursor:pointer;">
+          Kapat
+        </button>
+      </div>
+    `;
+  }
+
+  function showLabelList(labelType) {
+    const panel = document.getElementById("bottomPanel");
+    
+    // Aynı label'e sahip tüm node'ları bul
+    const sameLabelNodes = graph.nodes.filter(n => n.label === labelType);
+
+    if (sameLabelNodes.length === 0) {
+      panel.style.display = "none";
+      return;
+    }
+
+    // Listeyi oluştur
+    let html = `<h3 style="margin-bottom:8px;">📋 ${labelType} Listesi</h3>`;
+    html += `<ul style="padding-left:18px; line-height:1.6;">`;
+    sameLabelNodes.forEach(n => {
+      html += `<li><b>${n.name}</b> (${n.id})</li>`;
+    });
+    html += `</ul>`;
+
+    panel.innerHTML = html;
+    panel.style.display = "block";
+    }
+
+
+
+
+  // Highlight Fonksiyonu
+  function highlightNode(selectedNode) {
+    // Reset
+    node.transition().duration(300)
+        .attr("r", 15)
+        .attr("fill", color)
+        .style("opacity", 0.3);
+
+    link.transition().duration(300)
+        .attr("stroke", "#999")
+        .attr("stroke-width", 2)
+        .style("opacity", 0.2);
+
+    edgeLabel.transition().duration(300).style("opacity", 0.2);
+    label.transition().duration(300).style("opacity", 0.3);
+
+    const connectedLinks = graph.links.filter(l => l.source.id === selectedNode.id || l.target.id === selectedNode.id);
+    const connectedNodeIds = new Set([selectedNode.id, ...connectedLinks.map(l => l.source.id), ...connectedLinks.map(l => l.target.id)]);
+
+    // Ana node
+    node.filter(d => d.id === selectedNode.id)
+        .transition().duration(300)
+        .attr("r", 22)
+        .style("opacity", 1)
+        .attr("fill", d3.rgb(color(selectedNode)).brighter(1.5));
+
+    // Bağlantılı node'lar
+    node.filter(d => connectedNodeIds.has(d.id) && d.id !== selectedNode.id)
+        .transition().duration(300)
+        .attr("r", 18)
+        .style("opacity", 0.9)
+        .attr("fill", d => d3.rgb(color(d)).brighter(0.8));
+
+    // Bağlantılar
+    link.filter(l => connectedLinks.includes(l))
+        .transition().duration(300)
+        .attr("stroke", "#333")
+        .attr("stroke-width", 4)
+        .style("opacity", 1);
+
+    edgeLabel.filter(l => connectedLinks.includes(l))
+        .transition().duration(300)
+        .style("opacity", 1);
+
+    label.filter(d => connectedNodeIds.has(d.id))
+        .transition().duration(300)
+        .style("opacity", 1);
+  }
+
+  // Reset için boş alana tıklama
+  svg.on("click", () => {
+    resetHighlight();
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("bottomPanel").style.display = "none"; // ✅ Panel kapat
+  });
+
+
+  function resetHighlight() {
+    node.transition().duration(300)
+        .attr("r", 15)
+        .attr("fill", color)
+        .style("opacity", 1);
+
+    link.transition().duration(300)
+        .attr("stroke", "#999")
+        .attr("stroke-width", 2)
+        .style("opacity", 1);
+
+    edgeLabel.transition().duration(300).style("opacity", 1);
+    label.transition().duration(300).style("opacity", 1);
+  }
+
+  // PNG İndir
+  document.getElementById("downloadBtn").addEventListener("click", () => {
+    const svgElement = document.querySelector("svg");
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(svgElement);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+    const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      const imgURI = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+      const link = document.createElement("a");
+      link.download = "graph.png";
+      link.href = imgURI;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+    img.src = url;
+  });
+
+  // Drag
+  function drag(simulation) {
+    return d3.drag()
+      .on("start", event => {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
+      })
+      .on("drag", event => {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
+      })
+      .on("end", event => {
+        if (!event.active) simulation.alphaTarget(0);
+        event.subject.fx = null;
+        event.subject.fy = null;
+      });
+  }
+  // 🔍 Arama Fonksiyonu
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const query = document.getElementById("searchInput").value.trim().toLowerCase();
+    if (!query) return;
+
+    const foundNode = graph.nodes.find(n => 
+      n.name.toLowerCase().includes(query) || n.id.toLowerCase() === query
+    );
+
+    if (foundNode) {
+      highlightNode(foundNode);
+
+      // Yakınlaştır ve merkeze getir
+      const zoomScale = 1.5;
+      const tx = width / 2 - foundNode.x * zoomScale;
+      const ty = height / 2 - foundNode.y * zoomScale;
+
+      svg.transition()
+        .duration(750)
+        .call(d3.zoom().transform, d3.zoomIdentity.translate(tx, ty).scale(zoomScale));
+
+      showPopup(foundNode);
+    } else {
+      alert("Eşleşen node bulunamadı.");
+    }
+  });
+
+  // 🔄 Reset butonu
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    document.getElementById("searchInput").value = "";
+    resetHighlight();
+
+    // Zoom sıfırla
+    svg.transition().duration(750)
+      .call(d3.zoom().transform, d3.zoomIdentity);
+  });
+
+
+});
+</script>
+</body>
+</html>
