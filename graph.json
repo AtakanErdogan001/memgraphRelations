@@ -51,7 +51,8 @@
     { "id": "Kişi4", "label": "Çalışan", "name": "Tülay Gökçeler", "year": "2025", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/t%C3%BClay-g%C3%B6k%C3%A7eler-b56904232/" },
     { "id": "Kişi6", "label": "Çalışan", "name": "Gözde Nur Duran", "year": "2024", "status": "Aktif", "description": "Görselleştirme Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/gozdenurduran/" },
     { "id": "Kişi7", "label": "Çalışan", "name": "Solmaz Güneş Öztür", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/g%C3%BCne%C5%9F-%C3%B6zt%C3%BCr-195157249/" },
-    { "id": "Kişi8", "label": "Çalışan", "name": "Eren Güneş Çakmakçı", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/eren-g%C3%BCne%C5%9F-%C3%A7akmak%C3%A7%C4%B1-364b27278/" }
+    { "id": "Kişi8", "label": "Çalışan", "name": "Eren Güneş Çakmakçı", "year": "2025", "status": "Aktif", "description": "Teknik Uzmanı", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/eren-g%C3%BCne%C5%9F-%C3%A7akmak%C3%A7%C4%B1-364b27278/" },
+    { "id": "Kişi9", "label": "Çalışan", "name": "Ezgi Dolğun", "year": "2025", "status": "Aktif", "description": "Sosyolog", "unit": "İzmir Ofis", "baglanti": "https://www.linkedin.com/in/ezgi-dol%C4%9Fun-741869278/" }
   ],
 
   "links": [
@@ -100,7 +101,8 @@
     { "source": "Kişi4", "target": "T2", "type": "ÇALIŞAN" },
     { "source": "Kişi6", "target": "T5", "type": "ÇALIŞAN" },
     { "source": "Kişi7", "target": "T18", "type": "ÇALIŞAN" },
-    { "source": "Kişi8", "target": "T2", "type": "ÇALIŞAN" },     
+    { "source": "Kişi8", "target": "T2", "type": "ÇALIŞAN" },
+    { "source": "Kişi9", "target": "A8", "type": "ÇALIŞAN" },
 
 
 
