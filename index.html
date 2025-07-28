@@ -237,7 +237,7 @@ d3.json("graph.json").then(graph => {
 
 
 
-
+  let arrowAnimation = null;
   // Highlight Fonksiyonu
   function highlightNode(selectedNode) {
     // Reset
@@ -278,6 +278,21 @@ d3.json("graph.json").then(graph => {
         .attr("stroke-width", 4)
         .style("opacity", 1);
 
+    // ✅ Moving arrows
+    const arrows = g.selectAll(".moving-arrow")
+      .data(connectedLinks)
+      .enter()
+      .append("circle")
+      .attr("class", "moving-arrow")
+      .attr("r", 5)
+      .attr("fill", "#333");
+
+      arrowAnimation = d3.timer(() => {
+        const t = (Date.now() % 2000) / 2000;
+        arrows.attr("cx", d => d.source.x + (d.target.x - d.source.x) * t)
+              .attr("cy", d => d.source.y + (d.target.y - d.source.y) * t);
+      }),
+
     edgeLabel.filter(l => connectedLinks.includes(l))
         .transition().duration(300)
         .style("opacity", 1);
@@ -296,6 +311,13 @@ d3.json("graph.json").then(graph => {
 
 
   function resetHighlight() {
+    // Animasyonu durdur
+    if (arrowAnimation) {
+      arrowAnimation.stop();
+      arrowAnimation = null;
+    }
+    g.selectAll(".moving-arrow").remove(); // ✅ Noktaları kaldır
+
     node.transition().duration(300)
         .attr("r", 15)
         .attr("fill", color)
